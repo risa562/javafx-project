@@ -3,24 +3,27 @@ package com.company;
 
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.application.Application;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import javax.swing.text.html.ImageView;
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class App extends Application {
 
     private Button clear;
-    private TextArea textarea1;
+    static TextArea textarea1;
 
     public App() {
         System.out.println("constructor");
@@ -36,42 +39,66 @@ public class App extends Application {
     @Override
     public void start(Stage mainStage) {
 
-        clear = new Button("clear");
-        textarea1 = new TextArea();
+
+        //localization | Lokaalisaatio
+
+        //Locale locale = new Locale("en", "US");
+        Locale locale = Locale.getDefault();
+        ResourceBundle labels = ResourceBundle.getBundle("language", locale);
+
+        String title = labels.getString("title");
+
+        String file = labels.getString("file");
+        String edit = labels.getString("edit");
+        String run = labels.getString("run");
+        String about = labels.getString("about");
+
+        String newitem = labels.getString("new");
+        String open = labels.getString("open");
+        String save = labels.getString("save");
+        String exit = labels.getString("exit");
+
+        String cut = labels.getString("cut");
+        String copy = labels.getString("copy");
+        String paste = labels.getString("paste");
+
+        String compilerun = labels.getString("compilerun");
+
+        String about2 = labels.getString("about2");
 
         //MENUS
-        MenuBar menubar = new MenuBar();
-        Menu menu1 = new Menu("File");
-        Menu menu2 = new Menu("Edit");
-        Menu menu3 = new Menu("Run");
-        Menu menu4 = new Menu("About");
-        menubar.getMenus().add(menu1);
-        menubar.getMenus().add(menu2);
-        menubar.getMenus().add(menu3);
-        menubar.getMenus().add(menu4);
-        MenuItem newfile = new MenuItem("New");
-        MenuItem openfile = new MenuItem("Open");
-        MenuItem savefile = new MenuItem("Save");
-        MenuItem exit = new MenuItem("Exit");
+        MenuBar menubar1 = new MenuBar();
+        Menu menu1 = new Menu(file);
+        Menu menu2 = new Menu(edit);
+        Menu menu3 = new Menu(run);
+        Menu menu4 = new Menu(about);
+        menubar1.getMenus().add(menu1);
+        menubar1.getMenus().add(menu2);
+        menubar1.getMenus().add(menu3);
+        menubar1.getMenus().add(menu4);
+        MenuItem newfile = new MenuItem(newitem);
+        MenuItem openfile = new MenuItem(open);
+        MenuItem savefile = new MenuItem(save);
+        MenuItem exitprog = new MenuItem(exit);
 
         menu1.getItems().add(newfile);
         menu1.getItems().add(openfile);
         menu1.getItems().add(savefile);
-        menu1.getItems().add(exit);
+        menu1.getItems().add(exitprog);
 
-        MenuItem cuttext = new MenuItem("Cut");
-        MenuItem copytext = new MenuItem("Copy");
-        MenuItem pastetext = new MenuItem("Paste");
+        MenuItem cuttext = new MenuItem(cut);
+        MenuItem copytext = new MenuItem(copy);
+        MenuItem pastetext = new MenuItem(paste);
 
         menu2.getItems().add(cuttext);
         menu2.getItems().add(copytext);
         menu2.getItems().add(pastetext);
 
-        MenuItem runcompile = new MenuItem("Compile and Run");
+        MenuItem runcompile = new MenuItem(compilerun);
         menu3.getItems().add(runcompile);
 
-        MenuItem about = new MenuItem("About");
-        menu4.getItems().add(about);
+        MenuItem aboutthis = new MenuItem(about2);
+        menu4.getItems().add(aboutthis);
 
         FileChooser filechooser1 = new FileChooser();
         final Clipboard clipboard1 = Clipboard.getSystemClipboard();
@@ -79,6 +106,10 @@ public class App extends Application {
         content.putString("");
         content.putHtml("<b>test</b>");
 
+        //Clipboard systemClipboard = Clipboard.getSystemClipboard();
+        //ClipboardContent content = new ClipboardContent();
+        //content.putString(text);S
+        //String clipboardText = systemClipboard.getString();
 
 
         //ABOUT
@@ -87,23 +118,24 @@ public class App extends Application {
         aboutme.setHeaderText("JavaFX Code Editor v0.1");
         aboutme.setContentText("This page is currently a work in progress, come back later!");
 
-        //???
-        BorderPane borderpane1 = new BorderPane();
-        ToolBar toolbar1 = new ToolBar();
-        VBox vbox1 = new VBox(menubar);
+        //
+        clear = new Button("clear");
+        textarea1 = new TextArea();
 
-        //COMPLETE MESS!
-        toolbar1.setOrientation(Orientation.VERTICAL);
-        toolbar1.getItems().add(clear);
-        borderpane1.setTop(toolbar1);
-        borderpane1.setCenter(textarea1);
-        borderpane1.setBottom(new TextField("test"));
+        BorderPane root = new BorderPane(textarea1);
+        root.setCenter(textarea1);
+        ToolBar toolbar1 = new ToolBar(clear);
+        VBox vbox1 = new VBox(menubar1, toolbar1);
+        root.setTop(vbox1);
+        textarea1.setStyle("-fx-background-colour: #FF00FF;");
 
-        //Group group1 = new Group(borderpane1, clear);
-        Scene scene = new Scene(vbox1, 800, 600);
+
+
+
+
+
+        Scene scene = new Scene(root, 800, 600);
         mainStage.setTitle("Editor");
-        //mainStage.setWidth(800);
-        //mainStage.setHeight(600);
         mainStage.initStyle(StageStyle.UNIFIED);
         mainStage.setScene(scene);
         mainStage.show();
@@ -114,11 +146,16 @@ public class App extends Application {
 
         openfile.setOnAction(e -> {
             File selectedFile = filechooser1.showOpenDialog(mainStage);
-            });;
+        });
+        ;
 
-        about.setOnAction(actionEvent -> aboutme.showAndWait());
+        //private void copy(ActionEvent e){
+        //textarea1.copy();
+        //}
 
-        exit.setOnAction(actionEvent -> System.exit(0));
+        aboutthis.setOnAction(actionEvent -> aboutme.showAndWait());
+
+        exitprog.setOnAction(actionEvent -> System.exit(0));
 
         //clipboard1.setContent(content);
 
