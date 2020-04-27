@@ -20,13 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="763b82f6-152d-4a38-b75e-bacc8804dee7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/resourceBundles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/language_en_US.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/languages_fi_FI.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/company/util/FileHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/company/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/language_en_GB.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language_en_GB.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/company/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/company/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +54,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/company" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
@@ -141,29 +142,41 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="215" y="61" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1587364362536" />
-    <state width="1266" height="183" key="GridCell.Tab.0.bottom" timestamp="1587908440688">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser" timestamp="1587985244563">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1266" height="183" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587908440688" />
-    <state width="1266" height="183" key="GridCell.Tab.0.center" timestamp="1587908440688">
+    <state x="574" y="96" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1587985244563" />
+    <state width="1493" height="187" key="GridCell.Tab.0.bottom" timestamp="1587990336115">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1266" height="183" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587908440688" />
-    <state width="1266" height="183" key="GridCell.Tab.0.left" timestamp="1587908440687">
+    <state width="1493" height="187" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587990336115" />
+    <state width="1493" height="187" key="GridCell.Tab.0.center" timestamp="1587990336114">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1266" height="183" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587908440687" />
-    <state width="1266" height="183" key="GridCell.Tab.0.right" timestamp="1587908440688">
+    <state width="1493" height="187" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587990336114" />
+    <state width="1493" height="187" key="GridCell.Tab.0.left" timestamp="1587990336114">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1266" height="183" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587908440688" />
+    <state width="1493" height="187" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587990336114" />
+    <state width="1493" height="187" key="GridCell.Tab.0.right" timestamp="1587990336115">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="187" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587990336115" />
+    <state x="311" y="193" key="chooseDestDirectoryDialog" timestamp="1587989982097">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="311" y="193" key="chooseDestDirectoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1587989982097" />
+    <state x="475" y="160" key="refactoring.ChangeSignatureDialog" timestamp="1587982755403">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="475" y="160" key="refactoring.ChangeSignatureDialog/0.0.1536.824@0.0.1536.824" timestamp="1587982755403" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1587733666403">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1587733666403" />
-    <state x="318" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587727720690">
+    <state x="318" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1587985150139">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="318" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587727720690" />
+    <state x="318" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1587985150139" />
   </component>
 </project>

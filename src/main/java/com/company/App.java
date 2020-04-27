@@ -1,29 +1,29 @@
 
 package com.company;
 
-import javafx.geometry.Orientation;
-import javafx.scene.Group;
-import javafx.scene.Parent;
+import com.company.util.FileHandler;
+//import java.util.logging.FileHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.application.Application;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.text.html.ImageView;
-import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 public class App extends Application {
 
-    private Button clear;
-    static TextArea textarea1;
 
     public App() {
         System.out.println("constructor");
@@ -32,15 +32,25 @@ public class App extends Application {
     public void init() {
     }
 
+    private FileChooser filechooser1;
+    private FileHandler filehandler1;
+    private Stage mainStage;
+    private TextArea textarea1;
+    private String content;
+    private String filePath;
+
     public void stop() {
     }
 
+
+
     //public static final StageStyle UNIFIED
     @Override
-    public void start(Stage mainStage) {
+    public void start(Stage mainStage) throws IOException {
 
+        FileChooser filechooser1 = new FileChooser();
 
-        //localization | Lokaalisaatio
+        //LOCALIZATION
 
         //Locale locale = new Locale("en", "US");
         Locale locale = Locale.getDefault();
@@ -67,6 +77,7 @@ public class App extends Application {
         String about2 = labels.getString("about2");
 
         //MENUS
+
         MenuBar menubar1 = new MenuBar();
         Menu menu1 = new Menu(file);
         Menu menu2 = new Menu(edit);
@@ -77,12 +88,12 @@ public class App extends Application {
         menubar1.getMenus().add(menu3);
         menubar1.getMenus().add(menu4);
         MenuItem newfile = new MenuItem(newitem);
-        MenuItem openfile = new MenuItem(open);
+        MenuItem openfile0 = new MenuItem(open);
         MenuItem savefile = new MenuItem(save);
         MenuItem exitprog = new MenuItem(exit);
 
         menu1.getItems().add(newfile);
-        menu1.getItems().add(openfile);
+        menu1.getItems().add(openfile0);
         menu1.getItems().add(savefile);
         menu1.getItems().add(exitprog);
 
@@ -100,11 +111,10 @@ public class App extends Application {
         MenuItem aboutthis = new MenuItem(about2);
         menu4.getItems().add(aboutthis);
 
-        FileChooser filechooser1 = new FileChooser();
-        final Clipboard clipboard1 = Clipboard.getSystemClipboard();
-        final ClipboardContent content = new ClipboardContent();
-        content.putString("");
-        content.putHtml("<b>test</b>");
+        Clipboard clipboard1 = Clipboard.getSystemClipboard();
+        ClipboardContent content1 = new ClipboardContent();
+        content1.putString("");
+        content1.putHtml("<b>test</b>");
 
         //Clipboard systemClipboard = Clipboard.getSystemClipboard();
         //ClipboardContent content = new ClipboardContent();
@@ -112,27 +122,49 @@ public class App extends Application {
         //String clipboardText = systemClipboard.getString();
 
 
+
         //ABOUT
+
         Alert aboutme = new Alert(Alert.AlertType.INFORMATION);
         aboutme.setTitle("About this software");
         aboutme.setHeaderText("JavaFX Code Editor v0.1");
         aboutme.setContentText("This page is currently a work in progress, come back later!");
 
         //
-        clear = new Button("clear");
-        textarea1 = new TextArea();
+        Button clear = new Button("clear");
+        TextArea textarea1 = new TextArea();
+        textarea1.setWrapText(true);
+
+        //KEYS & HOTKEYS
+
+        cuttext.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.SHORTCUT_DOWN));
+        copytext.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.SHORTCUT_DOWN));
+        pastetext.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.SHORTCUT_DOWN));
+
+        textarea1.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.TAB) {
+                int index1 = textarea1.getCaretPosition();
+                textarea1.replaceText(index1-1, index1, "     ");
+            }
+        });
+
+
+        //TOOLS
+
+        ColorPicker colorpicker1 = new ColorPicker();
+
+        TextField fontsize = new TextField();
+        fontsize.setPrefColumnCount(3);
+
+        //INTERFACE SET UP
 
         BorderPane root = new BorderPane(textarea1);
         root.setCenter(textarea1);
-        ToolBar toolbar1 = new ToolBar(clear);
+        ToolBar toolbar1 = new ToolBar(clear,colorpicker1);
         VBox vbox1 = new VBox(menubar1, toolbar1);
         root.setTop(vbox1);
-        textarea1.setStyle("-fx-background-colour: #FF00FF;");
 
-
-
-
-
+        //INTERFACE INITIALIZATION
 
         Scene scene = new Scene(root, 800, 600);
         mainStage.setTitle("Editor");
@@ -142,12 +174,26 @@ public class App extends Application {
         mainStage.centerOnScreen();
 
         //ACTIONS
+
+        colorpicker1.setOnAction(actionEvent -> {
+            Color value = colorpicker1.getValue();
+        });
+
         clear.setOnAction(actionEvent -> textarea1.setText(""));
 
-        openfile.setOnAction(e -> {
-            File selectedFile = filechooser1.showOpenDialog(mainStage);
-        });
-        ;
+        cuttext.setOnAction(actionEvent -> textarea1.cut());;
+        copytext.setOnAction(actionEvent -> textarea1.copy());
+        pastetext.setOnAction(actionEvent -> textarea1.paste());
+
+
+        openfile0.setOnAction(actionEvent -> {
+                    File selectedFile = filechooser1.showOpenDialog(mainStage);
+                    filehandler1.setFilePath(selectedFile.getPath());
+                    //filehandler1.setOpenedFile(filePath);
+                    content = filehandler1.openhandle(selectedFile.getPath());
+            textarea1.setText(content);
+                });
+
 
         //private void copy(ActionEvent e){
         //textarea1.copy();
@@ -160,6 +206,7 @@ public class App extends Application {
         //clipboard1.setContent(content);
 
     }
+
 
     public static void main(String args[]) {
         launch(args);
