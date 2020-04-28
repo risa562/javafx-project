@@ -25,16 +25,9 @@ public class FileHandler {
     }
 
 
-
-
-
-    public void setOpenedFile(String textFile) {
-        this.OpenedFile = textFile;
-    }
-
-    public String openhandle(String openedFile) {
+    public String openfile() throws Exception {
         try {
-            content = Files.readString(Paths.get(openedFile));
+            content = Files.readString(Paths.get(filePath));
         }
         catch(IOException e) {
             System.out.println("IOException!");
@@ -43,6 +36,15 @@ public class FileHandler {
         return content;
     }
 
+
+    public void savefile(String content) {
+        try {
+            Files.writeString(Paths.get(filePath), content);
+        } catch(IOException e) {
+            System.out.println("IOException!");
+            e.printStackTrace();
+        }
+    }
     // Saves the content to given file path
     public void save(String content) {
 

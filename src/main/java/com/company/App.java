@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -49,6 +50,7 @@ public class App extends Application {
     public void start(Stage mainStage) throws IOException {
 
         FileChooser filechooser1 = new FileChooser();
+        FileHandler filehandler1 = new FileHandler();
 
         //LOCALIZATION
 
@@ -116,13 +118,6 @@ public class App extends Application {
         content1.putString("");
         content1.putHtml("<b>test</b>");
 
-        //Clipboard systemClipboard = Clipboard.getSystemClipboard();
-        //ClipboardContent content = new ClipboardContent();
-        //content.putString(text);S
-        //String clipboardText = systemClipboard.getString();
-
-
-
         //ABOUT
 
         Alert aboutme = new Alert(Alert.AlertType.INFORMATION);
@@ -185,15 +180,64 @@ public class App extends Application {
         copytext.setOnAction(actionEvent -> textarea1.copy());
         pastetext.setOnAction(actionEvent -> textarea1.paste());
 
+        newfile.setOnAction(actionEvent -> {
 
-        openfile0.setOnAction(actionEvent -> {
-                    File selectedFile = filechooser1.showOpenDialog(mainStage);
-                    filehandler1.setFilePath(selectedFile.getPath());
-                    //filehandler1.setOpenedFile(filePath);
-                    content = filehandler1.openhandle(selectedFile.getPath());
-            textarea1.setText(content);
+            String emptycheck=textarea1.getText().trim();
+            if(!emptycheck.equals("")) {
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert1.setTitle("Confirmation Dialog");
+                alert1.setHeaderText("Confirm creating a new file");
+                alert1.setContentText("Are you sure you want to create a new file? Unsaved changes to the current file will be lost!");
+                alert1.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                Optional<ButtonType> result = alert1.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    textarea1.setText("");
+                }
+            }
                 });
 
+        openfile0.setOnAction(actionEvent -> {
+
+
+            String emptycheck=textarea1.getText().trim();
+            if(emptycheck.equals("")) {
+            File selectedFile = filechooser1.showOpenDialog(mainStage);
+                try {
+                    filehandler1.setFilePath(selectedFile.getAbsolutePath());
+                    content = filehandler1.openfile();
+                    textarea1.setText(content);
+                    filePath = selectedFile.getAbsolutePath();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert1.setTitle("Confirmation Dialog");
+                alert1.setHeaderText("Confirm opening a new file");
+                alert1.setContentText("Are you sure you want to open a new file? Unsaved changes to the current file will be lost!");
+                alert1.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                Optional<ButtonType> result = alert1.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    File selectedFile = filechooser1.showOpenDialog(mainStage);
+                    try {
+                        filehandler1.setFilePath(selectedFile.getAbsolutePath());
+                        content = filehandler1.openfile();
+                        textarea1.setText(content);
+                        filePath = selectedFile.getAbsolutePath();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+                });
+
+        savefile.setOnAction(actionEvent -> {
+                    try {
+                        filehandler1.savefile(textarea1.getText());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
 
         //private void copy(ActionEvent e){
         //textarea1.copy();
